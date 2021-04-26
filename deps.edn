@@ -1,4 +1,4 @@
 {:deps
- {com.lmax/disruptor {:mvn/version "3.4.2"}
+ {com.lmax/disruptor {:mvn/version "3.4.3"}
   com.taoensso/timbre {:mvn/version "5.1.2"}
   com.cognitect/anomalies {:mvn/version "0.1.12"}}}
