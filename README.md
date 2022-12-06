@@ -1,6 +1,10 @@
-# disruptor
+# disruptor [![CircleCI](https://dl.circleci.com/status-badge/img/gh/hden/disruptor/tree/master.svg?style=svg)](https://dl.circleci.com/status-badge/redirect/gh/hden/disruptor/tree/master)
 
 A Clojure DSL for [LMAX Disruptor](https://github.com/LMAX-Exchange/disruptor).
+
+## Install
+
+[![Clojars Project](https://img.shields.io/clojars/v/com.github.hden/disruptor.svg)](https://clojars.org/com.github.hden/disruptor)
 
 ## Usage
 
