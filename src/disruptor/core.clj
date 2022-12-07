@@ -1,4 +1,4 @@
-(ns disruptor.core
+ (ns disruptor.core
   (:require [disruptor.impl :as impl])
   (:import [java.util.concurrent TimeUnit]
            [com.lmax.disruptor EventHandler]
@@ -8,12 +8,12 @@
 (defn disruptor
   "Create a new Disruptor."
   ^Disruptor
-  [{:keys [size on-error event-factory]}]
+  [{:keys [size event-factory default-exception-handler]}]
   (let [disruptor (Disruptor. (or event-factory impl/atomic-event-factory)
                               (or size 1024)
                               DaemonThreadFactory/INSTANCE)]
-    (when (fn? on-error)
-      (.setDefaultExceptionHandler disruptor (impl/exception-handler on-error)))
+    (when (fn? default-exception-handler)
+      (.setDefaultExceptionHandler disruptor (impl/exception-handler default-exception-handler)))
     disruptor))
 
 (defn publish!
@@ -37,25 +37,7 @@
               (or timeout 1)
               (or unit TimeUnit/SECONDS))))
 
-;; DSLs
 (defn add-handlers!
   "Set up event handlers to handle events from the disruptor."
   [disruptor {:keys [handlers]}]
   (.handleEventsWith disruptor (into-array EventHandler (map impl/event-handler handlers))))
-
-; (defn random-io [content shard]
-;   (Thread/sleep (rand 1000))
-;   (timbre/info (format "upload shard=%d content=%d" shard content)))
-
-; (defn -main []
-;   (let [disruptor (create-disruptor {:size 16})
-;         n (.. Runtime getRuntime availableProcessors)
-;         readers (add-handlers! disruptor (create-sharding-handlers random-io n))]
-;     (then readers [(create-event-handler (fn [entry _ _]
-;                                             (timbre/info (format "commit content %d" @entry))))])
-;     (start! disruptor)
-;     (timbre/info "disruptor started" disruptor)
-;     (doseq [x (range 100)]
-;       (publish! disruptor x))
-;     (timbre/info "wrote 100 entries")
-;     (shutdown! disruptor 60)))

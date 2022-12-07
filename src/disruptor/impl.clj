@@ -29,17 +29,19 @@
     (handleEventException [_ ex sequence event]
       (f {::anomalies/category ::anomalies/fault
           ::anomalies/message (.getMessage ex)
-          ::sequence sequence
-          ::event event
-          ::exception ex}))
+          :sequence sequence
+          :event event
+          :exception ex}))
+
     (handleOnStartException [_ ex]
       (f {::anomalies/category ::anomalies/incorrect
           ::anomalies/message (.getMessage ex)
-          ::exception ex}))
+          :exception ex}))
+
     (handleOnShutdownException [_ ex]
       (f {::anomalies/category ::anomalies/incorrect
           ::anomalies/message (.getMessage ex)
-          ::exception ex}))))
+          :exception ex}))))
 
 (def atomic-event-factory (event-factory #(atom nil)))
 (def atomic-event-translator (event-translator (fn [{:keys [event value]}]
