@@ -12,4 +12,4 @@
    :profiles/dev {}
    :project/dev
    {:dependencies
-    [[tortue/spy "2.13.0"]]}})
+    [[tortue/spy "2.14.0"]]}})
